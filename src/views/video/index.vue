@@ -1,10 +1,10 @@
 <template>
-  <div class='container'>user</div>
+  <div class='container'>video</div>
 </template>
 
 <script>
 export default {
-  name: 'my-user',
+  name: 'my-video',
   data () {
     return {}
   }

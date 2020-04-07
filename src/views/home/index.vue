@@ -1,5 +1,8 @@
 <template>
-  <div class="container"></div>
+  <div class="container">
+    <van-button type="warning">警告按钮</van-button>
+    <van-button type="danger">危险按钮</van-button>
+  </div>
 </template>
 
 <script>
