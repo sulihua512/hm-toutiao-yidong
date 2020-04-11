@@ -1,14 +1,28 @@
 <template>
-  <div class='container'>user</div>
+  <div class="user-container">
+    {{$store.state.user}}
+    我的-测试提交新代码
+  </div>
 </template>
 
 <script>
+import { getInfo } from '@/api/user.js'
+console.log(getInfo)
 export default {
-  name: 'my-user',
+  name: '',
   data () {
-    return {}
+    return {
+
+    }
+  },
+  created () {
+  // 在user/index.vue中调用user.js/getInfo
+    getInfo()
   }
+
 }
 </script>
 
-<style scoped lang='less'></style>
+<style lang="" scoped>
+
+</style>

@@ -33,11 +33,16 @@ export default {
       if (user.mobile === '') {
         this.errInfo.mobile = '手机号不能为空'
         return false
+      } else {
+        this.errInfo.mobile = ''
       }
       if (user.code === '') {
         this.errInfo.code = '密码不能为空'
         return false
+      } else {
+        this.errInfo.code = ''
       }
+
       return true
     },
     async Login () {
@@ -57,8 +62,13 @@ export default {
         const result = await login(this.user)
         console.log(result)
         this.$toast.success('登录成功')
+        // 登录成功后，保存信息到vuex中
+        // 不推荐 this.$store.state.user =
+        this.$store.commit('setUser', result.data.data)
         // todo: 跳转到首页
+        this.$router.push('/')
       } catch (err) {
+        console.log(err.response)
         const errMsg = err.response.data.message
         if (errMsg) {
           if (errMsg.mobile) {

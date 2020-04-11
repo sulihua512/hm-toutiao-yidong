@@ -1,12 +1,35 @@
 <template>
-  <div class="container">
-    <van-button type="warning">警告按钮</van-button>
-    <van-button type="danger">危险按钮</van-button>
+  <div class="home-container">
+    <van-tabs>
+      <van-tab v-for="item in channels" :key="item.id" :title="item.name">
+          {{item.name}}
+      </van-tab>
+    </van-tabs>
   </div>
 </template>
 
 <script>
-export default {}
+import { getChannels } from '@/api/channel.js'
+export default {
+  name: 'HomeIndex',
+  data () {
+    return {
+      active: 2,
+      channels: []
+    }
+  },
+  created () {
+    this.getChannels2()
+  },
+  methods: {
+    async getChannels2 () {
+      const result = await getChannels()
+      // console.log(result)
+      this.channels = result.data.data.channels
+    }
+  }
+}
 </script>
 
-<style scoped lang='less'></style>
+<style lang='less' scoped>
+</style>
