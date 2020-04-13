@@ -18,7 +18,7 @@ request.interceptors.request.use(function (config) {
   const user = store.state.user
   // 如果当前没有user,有就带上它的token
   if (user) {
-    console.log('请求拦截器', Date.now())
+    // console.log('请求拦截器', Date.now())
     config.headers.Authorization = `Bearer ${user.token}`
   }
   // console.dir(config)

@@ -1,5 +1,5 @@
 <template>
-  <div class="user-container">
+  <div class="index">
     {{$store.state.user}}
     我的-测试提交新代码
   </div>
