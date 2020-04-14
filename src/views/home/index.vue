@@ -16,6 +16,15 @@
       <more-action ref="refMoreAction"
         @dislike="hDislike" @report="hReport"></more-action>
     </van-popup>
+    <!-- 频道列表 -->
+    <div class="bar-btn" >
+      <van-icon name="wap-nav" size="24" @click="showChannelEdit"/>
+    </div>
+    <!-- 频道列表 -->
+    <van-action-sheet title=" 编辑频道" v-model="isShowChannelEdit"  >
+      <channel-edit :channels="channels"  @updateCurChannel="hUpdateCurChannel" @close="hCloseChannelEdit"
+      :activeIndex="activeIndex" ></channel-edit>
+    </van-action-sheet>
   </div>
 </template>
 
@@ -28,6 +37,8 @@ import MoreAction from './moreAction.vue'
 
 // 引入文章列表组件
 import ArticleList from './articleList.vue'
+
+import channelEdit from './channelEdit'
 export default {
   name: 'HomeIndex',
   data () {
@@ -36,17 +47,30 @@ export default {
       channels: [],
       showMoreAction: false, // 控制显示弹层
       articleId: null, // 当前要操作的文章编号,
-      activeIndex: 0
+      activeIndex: 0, // tab中激活的频道索引
+      isShowChannelEdit: false // 是否打开频道弹层
     }
   },
   components: {
     ArticleList,
-    MoreAction
+    MoreAction,
+    channelEdit
   },
   created () {
     this.getChannels123()
   },
   methods: {
+    // 跳转到相应的频道页面
+    hUpdateCurChannel (channel) {
+      this.activeIndex = this.channels.findIndex(it => it.id === channel.id)
+    },
+    // 关闭频道弹层
+    hCloseChannelEdit () {
+      this.isShowChannelEdit = false
+    },
+    showChannelEdit () {
+      this.isShowChannelEdit = true
+    },
     delArticle () {
       this.$eventBus.$emit('delArticle', {
         articleId: this.articleId,
@@ -101,5 +125,14 @@ export default {
 }
 </script>
 <style lang='less' scoped>
-// 作业：画出组件之间的关系图。
+.bar-btn{
+    position: fixed;
+    right: 5px;
+    top: 52px;
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    opacity: 0.8;
+    z-index:1
+}
 </style>
