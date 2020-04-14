@@ -1,12 +1,15 @@
 // 对axios进行二次封装
 import axios from 'axios'
-
 // 如何在.js模块中去使用vuex中的数据
 import store from '@/store/index.js'
+import JSONBig from 'json-bigint'
 
 const request = axios.create({
   // 基地址
-  baseURL: 'http://ttapi.research.itcast.cn'
+  baseURL: 'http://ttapi.research.itcast.cn',
+  transformResponse: [function (data) {
+    return data ? JSONBig.parse(data) : {}
+  }]
 })
 
 // 请求拦截器

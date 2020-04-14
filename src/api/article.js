@@ -17,3 +17,32 @@ export const getArticles = (data) => {
     params: data
   })
 }
+
+/**
+ * 不喜欢指定的文章
+ * @param {*} articleId
+ */
+export const dislikeArticle = (articleId) => {
+  return request({
+    url: '/app/v1_0/article/dislikes',
+    method: 'POST',
+    data: {
+      target: articleId
+    }
+  })
+}
+/**
+ * 举报文章
+ * @param {*} articleId 文章编号
+ * @param {*} type 举报类型
+ */
+export const reportArticle = (articleId, type) => {
+  return request({
+    method: 'POST',
+    url: '/app/v1_0/article/reports',
+    data: {
+      target: articleId,
+      type: type
+    }
+  })
+}
