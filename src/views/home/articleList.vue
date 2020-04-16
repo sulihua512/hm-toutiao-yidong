@@ -102,7 +102,7 @@ export default {
     // 下拉加载的具体代码
     async onRefresh () {
       // 1. 发请求，取回最新的文章
-      console.log('上拉刷新加载新数据.....')
+      // console.log('上拉刷新加载新数据.....')
       const result = await getArticles({
         channel_id: this.channel.id, // 当前的频道ID
         timestamp: Date.now(), // 请求最新的推荐数据传当前的时间戳
@@ -119,11 +119,11 @@ export default {
       // 3.修改下拉刷新的状态
       this.isLoadingNew = false
     },
-    // onLoad:执行时机：
-    // 1. 页面打开，van-list内容不足一屏，则会自动调用
-    // 2. 手动上拉，也会执行
     async onLoad () {
-      console.log('加载新数据.....')
+      // onLoad:执行时机：
+      // 1. 页面打开，van-list内容不足一屏，则会自动调用
+      // 2. 手动上拉，也会执行
+      // console.log('加载新数据.....')
       const result = await getArticles({
         channel_id: this.channel.id, // 当前的频道ID
         timestamp: this.timestamp || Date.now(),

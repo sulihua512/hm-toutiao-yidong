@@ -15,7 +15,7 @@
     <div class="channel">
       <van-cell title="可选频道" :border="false"></van-cell>
       <van-grid>
-        <van-grid-item v-for="item in recommChannels" :key="item.id" >
+        <van-grid-item v-for="item in recommChannels" :key="item.id" @click="hAddChannel(item)">
           <span>{{item.name}}</span>
           <van-icon name="plus" />
         </van-grid-item>
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { getAllChannels } from '@/api/channel.js'
+import { getAllChannels, addChannel } from '@/api/channel.js'
 export default {
   name: 'ChannelEdit',
   props: {
@@ -58,6 +58,21 @@ export default {
     }
   },
   methods: {
+    // 添加频道
+    async hAddChannel (item) {
+      const allChannelNow = [...this.channels, item]
+      // 修改频道格式
+      const channels = allChannelNow.map((it, idx) => {
+        return {
+          id: it.id,
+          seq: idx
+        }
+      })
+      channels.splice(0, 1) // 删除第一个元素（推荐频道）
+      const result = await addChannel(channels)
+      console.log(result)
+      this.channels.push(item)
+    },
     //   点击频道按钮，跳转到相应的频道页面
     hClickMyChannel (channel) {
       this.$emit('updateCurChannel', channel)
