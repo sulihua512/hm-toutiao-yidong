@@ -1,14 +1,9 @@
 <template>
-  <div class='index'>question</div>
+  <div class='container'></div>
 </template>
 
 <script>
-export default {
-  name: 'my-question',
-  data () {
-    return {}
-  }
-}
+export default { name: 'question', data () { return {} } }
 </script>
 
 <style scoped lang='less'></style>

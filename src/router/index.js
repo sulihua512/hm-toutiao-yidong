@@ -19,6 +19,15 @@ const routes = [
       { path: '/video', name: 'Video', component: () => import('../views/video/index.vue') },
       { path: '/user', name: 'User', component: () => import('../views/user/index.vue') }
     ]
+  }, {
+    path: '/search',
+    name: 'search',
+    component: () => import('../views/search/index.vue')
+  },
+  {
+    path: '/search/result',
+    name: 'result',
+    component: () => import('../views/search/result.vue')
   }
 ]
 

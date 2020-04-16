@@ -4,3 +4,23 @@
 .van-nav-bar .van-nav-bar__title {
   color: #fff;
 }
+.van-nav-bar .van-nav-bar__text {
+  color: #fff;
+}
+.van-nav-bar .van-icon {
+  color: #fff;
+}
+.index {
+  padding-top: 50px;
+  margin-bottom: 50px;
+}
+.index .van-tabs__wrap {
+  position: fixed;
+  top: 46px;
+  left: 0;
+  right: 30px;
+  z-index: 1;
+}
+.index .van-tabs--line {
+  padding-top: 50px;
+}

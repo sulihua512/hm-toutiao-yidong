@@ -22,7 +22,10 @@
     </div>
     <!-- 频道列表 -->
     <van-action-sheet title=" 编辑频道" v-model="isShowChannelEdit"  >
-      <channel-edit :channels="channels"  @updateCurChannel="hUpdateCurChannel" @close="hCloseChannelEdit"
+      <channel-edit :channels="channels"
+      @updateCurChannel="hUpdateCurChannel"
+      @updateCurIndex="updateCurIndex"
+      @close="hCloseChannelEdit"
       :activeIndex="activeIndex" ></channel-edit>
     </van-action-sheet>
   </div>
@@ -60,6 +63,9 @@ export default {
     this.getChannels123()
   },
   methods: {
+    updateCurIndex (index) {
+      this.activeIndex = index
+    },
     // 跳转到相应的频道页面
     hUpdateCurChannel (channel) {
       this.activeIndex = this.channels.findIndex(it => it.id === channel.id)

@@ -7,7 +7,8 @@
       <van-grid>
         <van-grid-item v-for="(item,idx) in channels" :key="item.id" @click="hClickMyChannel(item)" :class="{'cur':idx===activeIndex}">
           <span>{{item.name}}</span>
-          <van-icon v-if="editing" name="cross" class="btn"></van-icon>
+          <!-- 推荐频道不允许删除  idx!==0-->
+          <van-icon v-if="editing && idx!==0" name="cross" class="btn"></van-icon>
         </van-grid-item>
       </van-grid>
     </div>
@@ -25,7 +26,7 @@
 </template>
 
 <script>
-import { getAllChannels, addChannel } from '@/api/channel.js'
+import { getAllChannels, addChannel, delChannel } from '@/api/channel.js'
 export default {
   name: 'ChannelEdit',
   props: {
@@ -40,7 +41,7 @@ export default {
   },
   data () {
     return {
-      editing: true,
+      editing: false,
       allChannels: []
     }
   },
@@ -74,10 +75,23 @@ export default {
       this.channels.push(item)
     },
     //   点击频道按钮，跳转到相应的频道页面
-    hClickMyChannel (channel) {
-      this.$emit('updateCurChannel', channel)
-      this.$emit('close')
+    async hClickMyChannel (channel) {
+      if (this.editing) {
+        const result = await delChannel([channel.id])
+        console.log(result)
+        const idx = this.channels.findIndex(it => it.id === channel.id)
+        if (idx !== -1) {
+          this.channels.splice(idx, 1)
+        }
+        if (idx < this.activeIndex) {
+          this.$emit('updateCurIndex', this.activeIndex - 1)
+        }
+      } else {
+        this.$emit('updateCurChannel', channel)
+        this.$emit('close')
+      }
     },
+
     // 获取所有频道
     async getAllChannels () {
       const result = await getAllChannels()

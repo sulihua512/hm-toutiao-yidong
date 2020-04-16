@@ -44,3 +44,17 @@ export const addChannel = (channels) => {
     }
   })
 }
+
+/**
+ * 删除当前用户频道
+ * @param {*} channels
+ */
+export const delChannel = (channels) => {
+  return request({
+    method: 'DELETE',
+    url: '/app/v1_0/user/channels',
+    data: {
+      channels
+    }
+  })
+}
