@@ -36,7 +36,7 @@
       </div>
       <van-divider>正文结束</van-divider>
       <div class="zan">
-        <van-button round size="small" hairline type="primary" plain icon="good-job-o">点赞</van-button>
+        <van-button @click="hLike" round size="small" hairline type="primary" plain :icon="article.attitude===1?'good-job':'good-job-o'">{{article.attitude===1?'取消点赞':'点赞'}}</van-button>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <van-button round size="small" hairline type="danger" plain icon="delete">不喜欢</van-button>
       </div>
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { getArticle } from '@/api/article.js'
+import { getArticle, addLike, deleteLike } from '@/api/article.js'
 import { followUser, unfollowUser } from '@/api/user.js'
 
 export default {
@@ -63,6 +63,19 @@ export default {
     this.loadArticle()
   },
   methods: {
+    async hLike () {
+      const articleId = this.article.art_id.toString()
+      if (this.article.attitude === 1) {
+        // 取消点赞
+        await deleteLike(articleId)
+        this.article.attitude = -1
+      } else {
+        // 点赞
+        await addLike(articleId)
+        this.article.attitude = 1
+      }
+    //   this.article.is_followed = !this.article.is_followed
+    },
     async hFollow () {
       if (this.article.is_followed) {
         // 取关
