@@ -8,7 +8,7 @@
         finished-text="讨厌，人家被你看完了"
         @load="onLoad"
       >
-        <van-cell v-for="(item,index) in list" :key="index" :title="item.title">
+        <van-cell v-for="(item,index) in list" :key="index" :title="item.title" @click="$router.push('/article/'+item.art_id)">
           <!--
             label是一个插槽名，是van-cell组件中提供的。它的作用是让元素在标题的正下方
             -->
@@ -38,7 +38,7 @@
                 登陆用户可以看见 X
                 依据：只有登陆用户才有vuex 中 user
                -->
-              <span class="close" v-if="$store.state.user" @click="hMoreAction(item.art_id)">
+              <span class="close" v-if="$store.state.user" @click="hMoreAction.stop(item.art_id)">
                 <van-icon name="cross"></van-icon>
               </span>
 

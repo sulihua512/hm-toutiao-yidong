@@ -22,6 +22,7 @@
         v-for="(item,idx) in list"
         :key="idx"
         :title="item.title"
+        @click="$router.push('/article/'+item.art_id)"
       />
     </van-list>
     <!-- /文章列表 -->
@@ -50,7 +51,7 @@ export default {
         per_page: this.per_page,
         q: this.$route.query.keyword
       })
-      console.log(result)
+      // console.log(result)
 
       // 把结果添加到list中
       this.list.push(...result.data.data.results)

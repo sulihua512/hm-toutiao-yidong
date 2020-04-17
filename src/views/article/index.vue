@@ -12,17 +12,17 @@
     <!-- 文章详情 -->
 
     <!-- 加载中 loading -->
-    <van-loading class="article-loading" />
+    <van-loading class="v-if=article-loading" v-if="loading"/>
     <!-- /加载中 loading -->
 
-    <!-- 文章详情 -->
+    文章详情
     <div class="detail">
-      <h3 class="title">标题</h3>
+      <h3 class="title">{{article.title}}</h3>
       <div class="author">
-        <van-image round width="1rem" height="1rem" fit="fill" />
+        <van-image round width="1rem" height="1rem" fit="fill" src="article.aut_photo"/>
         <div class="text">
-          <p class="name">作者</p>
-          <p class="time">4天前</p>
+          <p class="name">{{article.aut_name}}</p>
+          <p class="time">{{article.pubdate|relativeTime}}</p>
         </div>
         <van-button
           round
@@ -31,7 +31,7 @@
         >+ 关注</van-button>
       </div>
       <div class="content">
-        <p>正文</p>
+        <div v-html="article.content"></div>
       </div>
       <van-divider>正文结束</van-divider>
       <div class="zan">
@@ -47,12 +47,27 @@
 </template>
 
 <script>
+import { getArticle } from '@/api/article.js'
 export default {
   name: 'ArticleIndex',
   data () {
     return {
-      loading: true, // 控制加载中的 loading 状态
+      loading: false, // 控制加载中的 loading 状态
       article: { }
+    }
+  },
+  created () {
+    this.loadArticle()
+  },
+  methods: {
+    async loadArticle () {
+      // 加载状态
+      this.loading = true
+      const result = await getArticle(this.$route.params.id)
+      //   console.log('文章详情:', result)
+      this.article = result.data.data
+      //   取消加载状态
+      this.loading = false
     }
   }
 }
