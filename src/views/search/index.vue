@@ -31,8 +31,8 @@
       <van-cell title="历史记录">
         <van-icon name="delelte"></van-icon>
       </van-cell>
-      <van-cell v-for="(item,idx) in searchHistories" :key="idx" :title="item">
-        <van-icon name="close" @click="hRemoveHistory(idx)" />
+      <van-cell v-for="(item,idx) in searchHistories" :key="idx" :title="item"  @click="hClickHistory(item)">
+        <van-icon name="close" @click.stop="hRemoveHistory(idx)" />
       </van-cell>
     </van-cell-group>
     <!-- /搜索历史记录 -->
@@ -73,6 +73,18 @@ export default {
     }
   },
   methods: {
+    // 点击历史记录
+    hClickHistory (str) {
+      this.addSearchHistory(str)
+      // 跳入搜索结果页，并传入参数
+      // http://localhost:8080/#/search/result?keyword=abc
+      this.$router.push({
+        name: 'searchResult',
+        query: {
+          keyword: str
+        }
+      })
+    },
     // 删除指定位置的历史记录
     hRemoveHistory (idx) {
       this.searchHistories.splice(idx, 1)
@@ -80,12 +92,18 @@ export default {
     // 点击搜索建议
     hClickSuggestion (idx) {
       const str = this.searchSuggestions[idx]
-      console.log(str)
+      // console.log(str)
       const index = this.searchHistories.indexOf(str)
       if (index !== -1) {
         this.searchHistories.splice(index, 1)
       }
       this.searchHistories.unshift(str)
+      this.$router.push({
+        name: 'searchResult',
+        query: {
+          keyword: str
+        }
+      })
     },
     addSearchHistory (str) {
       // 将关键字添加到历史记录中
@@ -99,6 +117,13 @@ export default {
       // alert(this.keyword)
       if (this.keyword) {
         this.addSearchHistory(this.keyword)
+        // 跳转到搜索结果页，并传入参数
+        this.$router.push({
+          name: 'searchResult',
+          query: {
+            keyword: this.keyword
+          }
+        })
       }
     },
     // 节流(比防抖效果好一点)

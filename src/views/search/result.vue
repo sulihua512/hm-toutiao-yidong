@@ -1,8 +1,9 @@
 <template>
+
   <div class="serach-result">
     <!-- 导航栏 -->
     <van-nav-bar
-      title="xxx 的搜索结果"
+      :title="$route.query.keyword+'的搜索结果'"
       left-arrow
       fixed
       @click-left="$router.back()"
@@ -18,9 +19,9 @@
       @load="onLoad"
     >
       <van-cell
-        v-for="item in list"
-        :key="item"
-        :title="item"
+        v-for="(item,idx) in list"
+        :key="idx"
+        :title="item.title"
       />
     </van-list>
     <!-- /文章列表 -->
@@ -28,31 +29,38 @@
 </template>
 
 <script>
+import { getSearch } from '@/api/search'
+// 获取当前传递的参数，并访问接口，获取数据，渲染页面
 export default {
   name: 'SearchResult',
   data () {
     return {
       list: [],
       loading: false,
-      finished: false
+      finished: false,
+      page: 1, // 当前要查询的页数
+      per_page: 10 // 每页 10条
     }
   },
 
   methods: {
-    onLoad () {
-      // 异步更新数据
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1)
-        }
-        // 加载状态结束
-        this.loading = false
+    async onLoad () {
+      const result = await getSearch({
+        page: this.page,
+        per_page: this.per_page,
+        q: this.$route.query.keyword
+      })
+      console.log(result)
 
-        // 数据全部加载完成
-        if (this.list.length >= 40) {
-          this.finished = true
-        }
-      }, 500)
+      // 把结果添加到list中
+      this.list.push(...result.data.data.results)
+      // 页码+1
+      this.page++
+
+      this.loading = false
+      if (result.data.data.results.length === 0) {
+        this.finished = true
+      }
     }
   }
 }
