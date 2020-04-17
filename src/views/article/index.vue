@@ -38,7 +38,7 @@
       <div class="zan">
         <van-button @click="hLike" round size="small" hairline type="primary" plain :icon="article.attitude===1?'good-job':'good-job-o'">{{article.attitude===1?'取消点赞':'点赞'}}</van-button>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <van-button round size="small" hairline type="danger" plain icon="delete">不喜欢</van-button>
+        <van-button @click="hlove" round size="small" hairline type="danger" plain icon="delete">{{article.is_collected?'喜欢':'不喜欢'}}</van-button>
       </div>
     </div>
     <!-- /文章详情 -->
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { getArticle, addLike, deleteLike } from '@/api/article.js'
+import { getArticle, addLike, deleteLike, likeArticle, unlikeArticle } from '@/api/article.js'
 import { followUser, unfollowUser } from '@/api/user.js'
 
 export default {
@@ -63,6 +63,18 @@ export default {
     this.loadArticle()
   },
   methods: {
+    async hlove () {
+      const articleId = this.article.art_id.toString()
+      if (this.article.is_collected) {
+        // 不喜欢
+        await unlikeArticle(articleId)
+        this.article.is_collected = false
+      } else {
+        // 取消不喜欢
+        await likeArticle(articleId)
+        this.article.is_collected = true
+      }
+    },
     async hLike () {
       const articleId = this.article.art_id.toString()
       if (this.article.attitude === 1) {
@@ -91,7 +103,7 @@ export default {
       // 加载状态
       this.loading = true
       const result = await getArticle(this.$route.params.id)
-      console.log('文章详情:', result)
+      //   console.log('文章详情:', result)
       this.article = result.data.data
       //   取消加载状态
       this.loading = false

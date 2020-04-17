@@ -81,3 +81,28 @@ export const deleteLike = (articleId) => {
     url: '/app/v1_0/article/likings/' + articleId
   })
 }
+
+/**
+ * 不喜欢
+ * @param {*} articleId 文章编号
+ */
+export const unlikeArticle = (articleId) => {
+  return request({
+    method: 'POST',
+    url: '/app/v1_0/article/dislikes',
+    data: {
+      target: articleId
+    }
+  })
+}
+
+/**
+ * 取消不喜欢
+ * @param {*} articleId 文章编号
+ */
+export const likeArticle = (articleId) => {
+  return request({
+    method: 'DELETE',
+    url: '/app/v1_0/article/dislikes/' + articleId
+  })
+}
