@@ -28,7 +28,8 @@
           round
           size="small"
           type="info"
-        >+ 关注</van-button>
+          @click="hFollow"
+        >{{article.is_followed?'取消关注':'+ 关注一下'}}</van-button>
       </div>
       <div class="content">
         <div v-html="article.content"></div>
@@ -48,6 +49,8 @@
 
 <script>
 import { getArticle } from '@/api/article.js'
+import { followUser, unfollowUser } from '@/api/user.js'
+
 export default {
   name: 'ArticleIndex',
   data () {
@@ -60,11 +63,22 @@ export default {
     this.loadArticle()
   },
   methods: {
+    async hFollow () {
+      if (this.article.is_followed) {
+        // 取关
+        await unfollowUser(this.article.aut_id)
+      } else {
+        // 关注
+        await followUser(this.article.aut_id)
+      }
+      this.article.is_followed = !this.article.is_followed
+    },
+    //  获取文章详情
     async loadArticle () {
       // 加载状态
       this.loading = true
       const result = await getArticle(this.$route.params.id)
-      //   console.log('文章详情:', result)
+      console.log('文章详情:', result)
       this.article = result.data.data
       //   取消加载状态
       this.loading = false

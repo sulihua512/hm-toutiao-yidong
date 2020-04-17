@@ -38,5 +38,26 @@ export function logout (user) {
     data: user
   })
 }
-
-// 修改个人信息
+/**
+ * 关注指定的用户
+ * @param {*} userId 用户编号
+ */
+export const followUser = (userId) => {
+  return request({
+    method: 'POST',
+    url: '/app/v1_0/user/followings',
+    data: {
+      target: userId
+    }
+  })
+}
+/**
+ * 取消指定的用户
+ * @param {*} userId 用户编号
+ */
+export const unfollowUser = (userId) => {
+  return request({
+    method: 'DELETE',
+    url: '/app/v1_0/user/followings/' + userId
+  })
+}
