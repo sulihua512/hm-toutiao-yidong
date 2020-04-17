@@ -101,20 +101,34 @@ export default {
         this.addSearchHistory(this.keyword)
       }
     },
+    // 节流(比防抖效果好一点)
     hSearch () {
-      if (this.timer) {
-        // 清除当前定时器
-        clearTimeout(this.timer)
+      if (!this.timer) {
+        this.timer = setTimeout(async () => {
+          this.timer = null
+          if (!this.keyword) {
+            return
+          }
+          const result = await getSearchSuggestion(this.keyword)
+          this.searchSuggestions = result.data.data.options
+        }, 0.3 * 1000)
       }
-      this.timer = setTimeout(async () => {
-        if (!this.keyword) {
-          return
-        }
-        const result = await getSearchSuggestion(this.keyword)
-        // console.log('搜索结果', result)
-        this.searchSuggestions = result.data.data.options
-      }, 0.3 * 1000)
     }
+    // 防抖
+    // hSearch () {
+    //   if (this.timer) {
+    //     // 清除当前定时器
+    //     clearTimeout(this.timer)
+    //   }
+    //   this.timer = setTimeout(async () => {
+    //     if (!this.keyword) {
+    //       return
+    //     }
+    //     const result = await getSearchSuggestion(this.keyword)
+    //     // console.log('搜索结果', result)
+    //     this.searchSuggestions = result.data.data.options
+    //   }, 0.3 * 1000)
+    // }
   }
 }
 </script>
