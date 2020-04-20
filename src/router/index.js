@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Layout from '../views/Layout.vue'
+import store from '@/store/index.js'
 
 Vue.use(VueRouter)
 
@@ -33,6 +34,16 @@ const routes = [
     path: '/article/:id',
     name: 'articleDetail',
     component: () => import('../views/article/index.vue')
+  },
+  {
+    path: '/user/profile',
+    name: 'useProfile',
+    component: () => import('../views/user/profile.vue')
+  },
+  {
+    path: '/user/chat',
+    name: 'chat',
+    component: () => import('../views/user/chat.vue')
   }
 ]
 
@@ -40,4 +51,26 @@ const router = new VueRouter({
   routes
 })
 
+// 导航守卫
+router.beforeEach(function (to, from, next) {
+  if (isOk(to)) {
+    next()
+  } else {
+    next({
+      path: '/login',
+      query: {
+        from: to.fullPath
+      }
+    })
+  }
+})
+
+function isOk (to) {
+  if (to.path.startsWith('/user') && !store.state.user) {
+    // console.log(to)
+    return false
+  } else {
+    return true
+  }
+}
 export default router

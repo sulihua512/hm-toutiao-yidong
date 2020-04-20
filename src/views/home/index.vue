@@ -87,8 +87,8 @@ export default {
     async hReport (typeId) {
       // console.log(typeId)
       // 1. 调用接口
-      const result = await reportArticle(this.articleId, typeId)
-      console.log('举报', result)
+      await reportArticle(this.articleId, typeId)
+      // console.log('举报', result)
       // 2. 关闭弹层
       this.showMoreAction = false
       // 3. 删除文章
@@ -98,8 +98,8 @@ export default {
     async hDislike () {
       // 收到moreAction中的点击动作， 不喜欢文章
       // 1. 调用接口
-      const result = await dislikeArticle(this.articleId)
-      console.log('不感兴趣', result)
+      await dislikeArticle(this.articleId)
+      // console.log('不感兴趣', result)
       // 2. 退出弹层
       this.showMoreAction = false
 
@@ -123,7 +123,7 @@ export default {
     },
     async getChannels123 () {
       const result = await getChannels()
-      console.log(result)
+      // console.log(result)
       // 把接口返回的数据保存在channels数据项中
       this.channels = result.data.data.channels
     }

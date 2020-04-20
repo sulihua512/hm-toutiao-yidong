@@ -60,13 +60,14 @@ export default {
       // 3.调用接口
       try {
         const result = await login(this.user)
-        console.log(result)
+        // console.log(result)
         this.$toast.success('登录成功')
         // 登录成功后，保存信息到vuex中
         // 不推荐 this.$store.state.user =
         this.$store.commit('setUser', result.data.data)
         // todo: 跳转到首页
-        this.$router.push('/')
+        const to = this.$route.query.from || '/'
+        this.$router.push(to)
       } catch (err) {
         console.log(err.response)
         const errMsg = err.response.data.message

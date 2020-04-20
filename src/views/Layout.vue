@@ -1,8 +1,12 @@
 <template>
   <div class="container">
     <!-- 头部 -->
-    <van-nav-bar title="黑马头条" right-text="搜索" @click-right="hSearch" fixed />
-    <!-- <van-search placeholder="请输入搜索关键词" /> -->
+    <van-nav-bar
+    title="黑马头条"
+    right-text="搜索"
+    @click-right="hSearch"
+    fixed
+    v-show="$route.path!=='/user'"/>
 
     <router-view></router-view>
 

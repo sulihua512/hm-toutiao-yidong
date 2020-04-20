@@ -7,14 +7,23 @@ import request from '@/utils/request'
  * 传入参数
  * 获取用户信息
  */
-export function getInfo () {
+export function getUserInfo () {
   return request({
     method: 'GET',
     url: '/app/v1_0/user/profile'
 
   })
 }
+/**
+ * 获取用户自己的信息
+ */
+export function getInfo () {
+  return request({
+    method: 'GET',
+    url: '/app/v1_0/user'
 
+  })
+}
 /**
  * 用户登陆
  * @param {Object} user 用户信息
@@ -59,5 +68,34 @@ export const unfollowUser = (userId) => {
   return request({
     method: 'DELETE',
     url: '/app/v1_0/user/followings/' + userId
+  })
+}
+
+/**
+ * 编辑用户信息
+ * @param {*} data
+ * {
+ *  name
+ *  gender
+ *  birthday
+ * }
+ */
+export const updateUserInfo = (data) => {
+  return request({
+    url: '/app/v1_0/user/profile',
+    method: 'PATCH',
+    data
+  })
+}
+
+/**
+ * 修改用户的头像
+ * @param {*} formData
+ */
+export const updatePhoto = (formData) => {
+  return request({
+    url: '/app/v1_0/user/photo',
+    method: 'PATCH',
+    data: formData
   })
 }

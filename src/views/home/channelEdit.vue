@@ -70,15 +70,15 @@ export default {
         }
       })
       channels.splice(0, 1) // 删除第一个元素（推荐频道）
-      const result = await addChannel(channels)
-      console.log(result)
+      await addChannel(channels)
+      // console.log(result)
       this.channels.push(item)
     },
     //   点击频道按钮，跳转到相应的频道页面
     async hClickMyChannel (channel) {
       if (this.editing) {
-        const result = await delChannel([channel.id])
-        console.log(result)
+        await delChannel([channel.id])
+        // console.log(result)
         const idx = this.channels.findIndex(it => it.id === channel.id)
         if (idx !== -1) {
           this.channels.splice(idx, 1)
